@@ -1,0 +1,475 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     18434,        467]
+NotebookOptionsPosition[     17637,        445]
+NotebookOutlinePosition[     18020,        461]
+CellTagsIndexPosition[     17977,        458]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"datain", "=", 
+   RowBox[{"Import", "[", 
+    RowBox[{
+     RowBox[{"StringJoin", "[", 
+      RowBox[{
+       RowBox[{"NotebookDirectory", "[", "]"}], " ", ",", 
+       "\"\<WHO_WORLD_Data_\>\"", ",", 
+       RowBox[{"DateString", "[", 
+        RowBox[{"{", 
+         RowBox[{"\"\<Year\>\"", ",", "\"\<Month\>\"", ",", "\"\<Day\>\""}], 
+         "}"}], "]"}], ",", "\"\<.txt\>\""}], "]"}], ",", "\"\<Data\>\""}], 
+    "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"WorldFullMod2", "=", 
+   RowBox[{"Drop", "[", 
+    RowBox[{"datain", ",", "1"}], "]"}]}], ";", 
+  RowBox[{"listofcountries", "=", 
+   RowBox[{"Take", "[", 
+    RowBox[{"DeleteDuplicates", "[", 
+     RowBox[{"WorldFullMod2", "[", 
+      RowBox[{"[", 
+       RowBox[{";;", ",", "1"}], "]"}], "]"}], "]"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"worldfullbydate", "=", 
+   RowBox[{"SortBy", "[", 
+    RowBox[{"WorldFullMod2", ",", "Last"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"growthfactordata", "=", 
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"Table", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"DateValue", "[", 
+             RowBox[{
+              RowBox[{
+               RowBox[{
+                RowBox[{"DateList", "[", 
+                 RowBox[{"ToString", "[", 
+                  RowBox[{"worldfullbydate", "[", 
+                   RowBox[{"[", 
+                    RowBox[{"j", ",", "7"}], "]"}], "]"}], "]"}], "]"}], "[", 
+                RowBox[{"[", 
+                 RowBox[{";;", "3"}], "]"}], "]"}], "-", 
+               RowBox[{"{", 
+                RowBox[{"2020", ",", "2", ",", "18"}], "}"}]}], ",", 
+              "\"\<Day\>\""}], "]"}], "-", "1"}], ",", 
+           RowBox[{"worldfullbydate", "[", 
+            RowBox[{"[", 
+             RowBox[{"j", ",", "2"}], "]"}], "]"}]}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"j", ",", 
+           RowBox[{
+            RowBox[{"Position", "[", 
+             RowBox[{"worldfullbydate", ",", 
+              RowBox[{"listofcountries", "[", 
+               RowBox[{"[", "k", "]"}], "]"}]}], "]"}], "[", 
+            RowBox[{"[", 
+             RowBox[{";;", ",", "1"}], "]"}], "]"}]}], "}"}]}], "]"}], ",", 
+       RowBox[{"listofcountries", "[", 
+        RowBox[{"[", "k", "]"}], "]"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"k", ",", "1", ",", 
+       RowBox[{"Length", "[", "listofcountries", "]"}]}], "}"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"growthtable", "=", 
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"NonlinearModelFit", "[", 
+        RowBox[{
+         RowBox[{"growthfactordata", "[", 
+          RowBox[{"[", 
+           RowBox[{"j", ",", "1"}], "]"}], "]"}], ",", 
+         RowBox[{"A", 
+          SuperscriptBox[
+           RowBox[{"(", 
+            RowBox[{"1", "+", 
+             RowBox[{"B", "/", "100"}]}], ")"}], "t"]}], ",", 
+         RowBox[{"{", 
+          RowBox[{"A", ",", "B"}], "}"}], ",", "t", ",", 
+         RowBox[{"MaxIterations", "\[Rule]", "1000"}]}], "]"}], ",", 
+       RowBox[{"growthfactordata", "[", 
+        RowBox[{"[", 
+         RowBox[{"j", ",", "2"}], "]"}], "]"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"j", ",", "1", ",", 
+       RowBox[{"Length", "[", "growthfactordata", "]"}]}], "}"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Manipulate", "[", 
+  RowBox[{
+   RowBox[{"Show", "[", 
+    RowBox[{
+     RowBox[{"DateListPlot", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Table", "[", 
+         RowBox[{
+          RowBox[{"worldfullbydate", "[", 
+           RowBox[{"[", "j", "]"}], "]"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"j", ",", 
+            RowBox[{
+             RowBox[{"Position", "[", 
+              RowBox[{"worldfullbydate", ",", 
+               RowBox[{"listofcountries", "[", 
+                RowBox[{"[", "x", "]"}], "]"}]}], "]"}], "[", 
+             RowBox[{"[", 
+              RowBox[{";;", ",", "1"}], "]"}], "]"}]}], "}"}]}], "]"}], "[", 
+        RowBox[{"[", 
+         RowBox[{";;", ",", "2"}], "]"}], "]"}], ",", 
+       RowBox[{"DateObject", "[", 
+        RowBox[{"ToString", "[", 
+         RowBox[{
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"worldfullbydate", "[", 
+             RowBox[{"[", "j", "]"}], "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"j", ",", 
+              RowBox[{
+               RowBox[{"Position", "[", 
+                RowBox[{"worldfullbydate", ",", 
+                 RowBox[{"listofcountries", "[", 
+                  RowBox[{"[", "x", "]"}], "]"}]}], "]"}], "[", 
+               RowBox[{"[", 
+                RowBox[{";;", ",", "1"}], "]"}], "]"}]}], "}"}]}], "]"}], "[", 
+          RowBox[{"[", 
+           RowBox[{"1", ",", "7"}], "]"}], "]"}], "]"}], "]"}], ",", 
+       RowBox[{"ImageSize", "\[Rule]", 
+        RowBox[{"{", 
+         RowBox[{"1000", ",", "750"}], "}"}]}], ",", " ", 
+       RowBox[{"PlotLabel", "\[Rule]", 
+        RowBox[{"Style", "[", 
+         RowBox[{
+          RowBox[{"StringJoin", "[", 
+           RowBox[{
+            RowBox[{"listofcountries", "[", 
+             RowBox[{"[", "x", "]"}], "]"}], ",", "\"\< / \>\"", ",", 
+            RowBox[{"StringJoin", "[", 
+             RowBox[{"\"\<Growth Rate = \>\"", ",", 
+              RowBox[{"ToString", "[", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{"Replace", "[", 
+                  RowBox[{"growthtable", "[", 
+                   RowBox[{"[", 
+                    RowBox[{"x", ",", "1", ",", "1", ",", "2", ",", "2"}], 
+                    "]"}], "]"}], "]"}], "[", "B", "]"}], "/", "100"}], 
+               "]"}]}], "]"}], ",", "\"\< / \>\"", ",", 
+            RowBox[{"StringJoin", "[", 
+             RowBox[{"\"\<\!\(\*SuperscriptBox[\(R\), \(2\)]\) = \>\"", ",", 
+              RowBox[{"ToString", "[", 
+               RowBox[{
+                RowBox[{"growthtable", "[", 
+                 RowBox[{"[", 
+                  RowBox[{"x", ",", "1"}], "]"}], "]"}], "[", 
+                "\"\<RSquared\>\"", "]"}], "]"}]}], "]"}]}], "]"}], ",", "24",
+           ",", "Black"}], "]"}]}], ",", 
+       RowBox[{"PlotRange", "->", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{"2020", ",", "2", ",", "19"}], "}"}], ",", 
+            RowBox[{"DateValue", "[", 
+             RowBox[{
+              RowBox[{"DateList", "[", "]"}], ",", 
+              RowBox[{"{", 
+               RowBox[{
+               "\"\<Year\>\"", ",", "\"\<Month\>\"", ",", "\"\<Day\>\""}], 
+               "}"}]}], "]"}]}], "}"}], ",", "Automatic"}], "}"}]}]}], "]"}], 
+     ",", 
+     RowBox[{"DateListPlot", "[", 
+      RowBox[{
+       RowBox[{"Table", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"growthtable", "[", 
+           RowBox[{"[", 
+            RowBox[{"x", ",", "1"}], "]"}], "]"}], "[", "t", "]"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"t", ",", "1", ",", 
+           RowBox[{"DateValue", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{
+               RowBox[{"DateList", "[", "]"}], "[", 
+               RowBox[{"[", 
+                RowBox[{"1", ";;", "3"}], "]"}], "]"}], "-", 
+              RowBox[{"{", 
+               RowBox[{"2020", ",", "02", ",", "19"}], "}"}]}], ",", 
+             "\"\<Day\>\""}], "]"}]}], "}"}]}], "]"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"2020", ",", "2", ",", "19"}], "}"}], ",", 
+       RowBox[{"Joined", "->", "True"}], ",", 
+       RowBox[{"PlotStyle", "\[Rule]", 
+        RowBox[{"{", "Red", "}"}]}]}], "]"}], ",", 
+     RowBox[{"FrameLabel", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"Style", "[", 
+         RowBox[{"Date", ",", "24", ",", "Black"}], "]"}], ",", 
+        RowBox[{"Style", "[", 
+         RowBox[{
+          RowBox[{"Cumulative", " ", "Cases"}], ",", "24", ",", "Black"}], 
+         "]"}]}], "}"}]}]}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"x", ",", "1", ",", 
+     RowBox[{"Length", "[", "listofcountries", "]"}], ",", "1"}], "}"}]}], 
+  "]"}]}], "Input",
+ CellChangeTimes->{{3.792929336339374*^9, 3.7929293673971505`*^9}, {
+   3.7929293987379427`*^9, 3.7929294425764503`*^9}, {3.792930215702671*^9, 
+   3.7929302164757147`*^9}, 3.7929330823746347`*^9, {3.7929333019551945`*^9, 
+   3.792933337756242*^9}, {3.7929338066760626`*^9, 3.7929338463473315`*^9}, {
+   3.792933879079204*^9, 3.7929339601258397`*^9}, {3.792934015825025*^9, 
+   3.7929340524421196`*^9}, {3.7929341573741217`*^9, 
+   3.7929342176475687`*^9}, {3.7929342555587373`*^9, 3.792934255796751*^9}, {
+   3.7929342891886606`*^9, 3.7929343123359847`*^9}, {3.7929343681221757`*^9, 
+   3.792934454713128*^9}, {3.7929345242661066`*^9, 3.792934762944758*^9}, {
+   3.792934798804809*^9, 3.7929348287735233`*^9}, 3.7929349253340464`*^9, {
+   3.79293496368824*^9, 3.792934964109264*^9}, {3.7929349964691153`*^9, 
+   3.7929350047855906`*^9}},
+ CellLabel->
+  "In[262]:=",ExpressionUUID->"2f0521f4-7d98-462b-9b91-2b6e215cfc08"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`x$$ = 12, Typeset`show$$ = True, 
+    Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{
+      Hold[$CellContext`x$$], 1, 118, 1}}, Typeset`size$$ = {
+    1000., {372., 378.}}, Typeset`update$$ = 0, Typeset`initDone$$, 
+    Typeset`skipInitDone$$ = True, $CellContext`x$276534$$ = 0}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, "Variables" :> {$CellContext`x$$ = 1}, 
+      "ControllerVariables" :> {
+        Hold[$CellContext`x$$, $CellContext`x$276534$$, 0]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> Show[
+        DateListPlot[
+         Part[
+          Table[
+           
+           Part[$CellContext`worldfullbydate, $CellContext`j], \
+{$CellContext`j, 
+            Part[
+             Position[$CellContext`worldfullbydate, 
+              Part[$CellContext`listofcountries, $CellContext`x$$]], 
+             Span[1, All], 1]}], 
+          Span[1, All], 2], 
+         DateObject[
+          ToString[
+           Part[
+            Table[
+             
+             Part[$CellContext`worldfullbydate, $CellContext`j], \
+{$CellContext`j, 
+              Part[
+               Position[$CellContext`worldfullbydate, 
+                Part[$CellContext`listofcountries, $CellContext`x$$]], 
+               Span[1, All], 1]}], 1, 7]]], ImageSize -> {1000, 750}, 
+         PlotLabel -> Style[
+           StringJoin[
+            Part[$CellContext`listofcountries, $CellContext`x$$], " / ", 
+            StringJoin["Growth Rate = ", 
+             ToString[Replace[
+                
+                Part[$CellContext`growthtable, $CellContext`x$$, 1, 1, 2, 
+                 2]][$CellContext`B]/100]], " / ", 
+            StringJoin["\!\(\*SuperscriptBox[\(R\), \(2\)]\) = ", 
+             ToString[
+              Part[$CellContext`growthtable, $CellContext`x$$, 1][
+              "RSquared"]]]], 24, Black], PlotRange -> {{{2020, 2, 19}, 
+            DateValue[
+             DateList[], {"Year", "Month", "Day"}]}, Automatic}], 
+        DateListPlot[
+         Table[
+          
+          Part[$CellContext`growthtable, $CellContext`x$$, 
+           1][$CellContext`t], {$CellContext`t, 1, 
+           DateValue[Part[
+              DateList[], 
+              Span[1, 3]] - {2020, 2, 19}, "Day"]}], {2020, 2, 19}, Joined -> 
+         True, PlotStyle -> {Red}], FrameLabel -> {
+          Style[Date, 24, Black], 
+          Style[$CellContext`Cumulative Cases, 24, Black]}], 
+      "Specifications" :> {{$CellContext`x$$, 1, 118, 1}}, "Options" :> {}, 
+      "DefaultOptions" :> {}],
+     ImageSizeCache->{1051., {431., 438.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{
+  3.7929333133178444`*^9, {3.7929338329165635`*^9, 3.7929338482864428`*^9}, {
+   3.7929339206165795`*^9, 3.7929339625569787`*^9}, {3.7929340256865892`*^9, 
+   3.792934054269224*^9}, 3.792934181427497*^9, 3.792934220414727*^9, 
+   3.7929342571848307`*^9, 3.79293430403751*^9, {3.79293440630536*^9, 
+   3.792934456268217*^9}, {3.79293454303618*^9, 3.792934590496895*^9}, 
+   3.792934632817315*^9, 3.7929346666792517`*^9, {3.792934915627491*^9, 
+   3.7929349310773745`*^9}, 3.792934966290389*^9, {3.7929350069237127`*^9, 
+   3.7929350306480703`*^9}},
+ CellLabel->
+  "Out[267]=",ExpressionUUID->"0e4979cd-e7d4-4c38-8521-de8fd8062ebc"]
+}, Open  ]],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`x$$ = 13, Typeset`show$$ = True, 
+    Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{
+      Hold[$CellContext`x$$], 1, 118, 1}}, Typeset`size$$ = {
+    360., {121., 127.}}, Typeset`update$$ = 0, Typeset`initDone$$, 
+    Typeset`skipInitDone$$ = True, $CellContext`x$102522$$ = 0}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, "Variables" :> {$CellContext`x$$ = 1}, 
+      "ControllerVariables" :> {
+        Hold[$CellContext`x$$, $CellContext`x$102522$$, 0]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> Show[
+        DateListPlot[
+         Part[
+          Table[
+           
+           Part[$CellContext`worldfullbydate, $CellContext`j], \
+{$CellContext`j, 
+            Part[
+             Position[$CellContext`worldfullbydate, 
+              Part[$CellContext`listofcountries, $CellContext`x$$]], 
+             Span[1, All], 1]}], 
+          Span[1, All], 2], 
+         DateObject[
+          ToString[
+           Part[
+            Table[
+             
+             Part[$CellContext`worldfullbydate, $CellContext`j], \
+{$CellContext`j, 
+              Part[
+               Position[$CellContext`worldfullbydate, 
+                Part[$CellContext`listofcountries, $CellContext`x$$]], 
+               Span[1, All], 1]}], 1, 7]]], PlotLabel -> {
+           Part[$CellContext`listofcountries, $CellContext`x$$], 
+           StringJoin["Growth Rate = ", 
+            ToString[Replace[
+               
+               Part[$CellContext`growthtable, $CellContext`x$$, 1, 1, 2, 
+                2]][$CellContext`B]/100]]}, PlotRange -> {{{2020, 2, 19}, 
+            DateValue[
+             DateList[], {"Year", "Month", "Day"}]}, Automatic}], 
+        DateListPlot[
+         Table[
+          
+          Part[$CellContext`growthtable, $CellContext`x$$, 
+           1][$CellContext`t], {$CellContext`t, 1, 
+           DateValue[Part[
+              DateList[], 
+              Span[1, 3]] - {2020, 2, 19}, "Day"]}], {2020, 2, 19}, Joined -> 
+         True, PlotStyle -> {Red}]], 
+      "Specifications" :> {{$CellContext`x$$, 1, 118, 1}}, "Options" :> {}, 
+      "DefaultOptions" :> {}],
+     ImageSizeCache->{411., {180., 187.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Input",
+ CellChangeTimes->{3.7929332028385253`*^9},
+ CellLabel->"In[74]:=",ExpressionUUID->"cc688270-82f9-405e-bbe2-fc61c87c2cac"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"StringJoin", "[", 
+  RowBox[{"\"\<\!\(\*SuperscriptBox[\(R\), \(2\)]\) = \>\"", ",", 
+   RowBox[{"ToString", "[", 
+    RowBox[{
+     RowBox[{"growthtable", "[", 
+      RowBox[{"[", 
+       RowBox[{"13", ",", "1"}], "]"}], "]"}], "[", "\"\<RSquared\>\"", "]"}],
+     "]"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.792933142048048*^9, 3.7929332770837717`*^9}},
+ CellLabel->"In[77]:=",ExpressionUUID->"451228b8-ff48-4c79-8c1b-ff771bbbe6c4"],
+
+Cell[BoxData["\<\"\\!\\(\\*SuperscriptBox[\\(R\\), \\(2\\)]\\) = \
+0.99145\"\>"], "Output",
+ CellChangeTimes->{{3.7929332714974523`*^9, 3.792933278226837*^9}},
+ CellLabel->"Out[77]=",ExpressionUUID->"adef02a5-352b-417f-a5ad-39d71b714668"]
+}, Open  ]]
+},
+WindowSize->{1671, 857},
+WindowMargins->{{89, Automatic}, {Automatic, 59}},
+TaggingRules->{"TryRealOnly" -> False},
+FrontEndVersion->"12.0 for Microsoft Windows (64-bit) (April 8, 2019)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 9206, 235, 250, "Input",ExpressionUUID->"2f0521f4-7d98-462b-9b91-2b6e215cfc08"],
+Cell[9789, 259, 4007, 89, 888, "Output",ExpressionUUID->"0e4979cd-e7d4-4c38-8521-de8fd8062ebc"]
+}, Open  ]],
+Cell[13811, 351, 3082, 72, 382, InheritFromParent,ExpressionUUID->"cc688270-82f9-405e-bbe2-fc61c87c2cac"],
+Cell[CellGroupData[{
+Cell[16918, 427, 462, 10, 31, "Input",ExpressionUUID->"451228b8-ff48-4c79-8c1b-ff771bbbe6c4"],
+Cell[17383, 439, 238, 3, 32, "Output",ExpressionUUID->"adef02a5-352b-417f-a5ad-39d71b714668"]
+}, Open  ]]
+}
+]
+*)
+
